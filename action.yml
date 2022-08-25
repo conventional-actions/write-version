@@ -1,0 +1,25 @@
+name: 'write-version'
+description: 'Write version to a file'
+author: 'Conventional Actions'
+inputs:
+  output_path:
+    required: false
+    description: 'output paths to write the version to'
+    default: "package.json"
+  format:
+    required: false
+    description: 'file format to use if the extension is not recognized'
+    default: ''
+  version:
+    required: true
+    description: 'version to write'
+  selector:
+    required: false
+    default: version
+    description: 'selector of the field in the JSON/YAML file to update with the version'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: hash
+  color: purple
