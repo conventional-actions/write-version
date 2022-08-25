@@ -19,3 +19,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./
+        with:
+          version: 1.2.3
