@@ -1,29 +1,16 @@
 import * as core from '@actions/core'
-import {parseInputFiles, paths, unmatchedPatterns} from './utils'
+import {paths, unmatchedPatterns} from '@conventional-actions/toolkit'
 import {writeVersion} from './version'
+import {getConfig} from './config'
 
 async function run(): Promise<void> {
   try {
-    let outputPaths = parseInputFiles(core.getInput('output_path'))
-    core.debug(`outputPaths = ${outputPaths}`)
+    const config = await getConfig()
 
-    const format = core.getInput('format')
-    core.debug(`format = ${format}`)
-
-    const version = core.getInput('version', {required: true})
-    core.debug(`version = ${version}`)
-
-    const selector = core.getInput('selector') || 'version'
-    core.debug(`selector = ${selector}`)
-
-    if (!outputPaths || !outputPaths.length) {
-      outputPaths = ['package.json']
-    }
-
-    const patterns = paths(outputPaths)
+    const patterns = paths(config.outputPaths)
     core.debug(`patterns = ${patterns}`)
 
-    const unmatched = unmatchedPatterns(outputPaths)
+    const unmatched = unmatchedPatterns(config.outputPaths)
     core.debug(`unmatched = ${unmatched}`)
 
     for (const path of unmatched) {
@@ -36,7 +23,7 @@ async function run(): Promise<void> {
     }
 
     for (const path of patterns) {
-      await writeVersion(path, version, selector, format)
+      await writeVersion(path, config.version, config.selector, config.format)
     }
 
     core.info('Updated versions')
