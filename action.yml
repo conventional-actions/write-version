@@ -18,7 +18,7 @@ inputs:
     default: version
     description: 'selector of the field in the JSON/YAML file to update with the version'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 branding:
   icon: hash
